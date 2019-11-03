@@ -17,15 +17,19 @@ int main() {
     "f4_l-d_kp_4_11", "f6_l-d_kp_10_60", "f8_l-d_kp_23_10000",
     "f1_l-d_kp_10_269", "f3_l-d_kp_4_20", "f5_l-d_kp_15_375", 
     "f7_l-d_kp_7_50", "f9_l-d_kp_5_80" };
-  //int low_dim_maxWs[] = { 879, 878, 11, 60, 10000, 269, 20, 375, 50, 80 };
+  string large_scale_files[] = {
+    "knapPI_1_100_1000_1", "knapPI_2_100_1000_1", "knapPI_3_100_1000_1",
+    "knapPI_1_200_1000_1", "knapPI_2_200_1000_1", "knapPI_3_200_1000_1",
+    "knapPI_1_500_1000_1", "knapPI_2_500_1000_1", "knapPI_3_500_1000_1"};
+    //"knapPI_1_1000_1000_1", "knapPI_2_1000_1000_1", "knapPI_3_1000_1000_1",
+    //"knapPI_1_2000_1000_1", "knapPI_2_2000_1000_1", "knapPI_3_2000_1000_1",
+    //"knapPI_1_10000_1000_1", "knapPI_2_10000_1000_1", "knapPI_3_10000_1000_1",
+    //"knapPI_1_5000_1000_1", "knapPI_2_5000_1000_1", "knapPI_3_5000_1000_1"};
 
+  cout << "low-dimension\nArquivo, Items, Limite, Resposta, Tempo (microsegundos)\n";
   for (int i = 0; i < 10; ++i) {
     vector<int> val;
-    //vector<int> wt = {10, 20, 30}; 
     vector<int> wt; 
-    //vector<int> val = {60, 100, 120};
-    //int W = 50; 
-    //int W = low_dim_maxWs[i]; 
 
     fstream myfile("../instances_01_KP/low-dimensional/" + low_dim_files[i], ios_base::in);
 
@@ -40,10 +44,33 @@ int main() {
     n = val.size(); 
 
     auto start = high_resolution_clock::now(); 
-    cout << "Resposta para " << low_dim_files[i] << " : " << knapSack(W, wt, val, n) << "\n";
+    cout << low_dim_files[i] << " , " << n << " , " << W << " , " << knapSack(W, wt, val, n);
     auto stop = high_resolution_clock::now(); 
     auto duration = duration_cast<microseconds>(stop - start); 
-    cout << "Tempo: " << duration.count() << endl;
+    cout << " , " << duration.count() << endl;
+  }
+  cout << "large-scale\nArquivo, Items, Limite, Resposta, Tempo (microsegundos)\n";
+  for (int i = 0; i < 9; ++i) {
+    vector<int> val;
+    vector<int> wt; 
+
+    fstream myfile("../instances_01_KP/large_scale/" + large_scale_files[i], ios_base::in);
+
+    int a, b, n, W;
+    myfile >> n;
+    myfile >> W;
+    while (myfile >> a) {
+      myfile >> b;
+      val.push_back(a);
+      wt.push_back(b);
+    }
+    n = val.size(); 
+
+    auto start = high_resolution_clock::now(); 
+    cout << low_dim_files[i] << " , " << n << " , " << W << " , " << knapSack(W, wt, val, n);
+    auto stop = high_resolution_clock::now(); 
+    auto duration = duration_cast<microseconds>(stop - start); 
+    cout << " , " << duration.count() << endl;
   }
   return 0; 
 } 
